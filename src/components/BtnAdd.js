@@ -23,7 +23,13 @@ class BtnAdd extends React.Component {
       <Button
         onPress={() => {
           let newNotice = [...this.props.fav]
-          let notice = {'urlToImage': this.props.obj['urlToImage'], 'title': this.props.obj['title'], 'content': this.props.obj['content'], 'favorite': true}
+          let notice = {
+            'urlToImage': this.props.obj['urlToImage'],
+            'title': this.props.obj['title'],
+            'content': this.props.obj['content'],
+            'favorite': true
+          }
+
           newNotice.push(notice)
           this.props.dispatch({ type: 'add/notice', fav: newNotice})
         }}

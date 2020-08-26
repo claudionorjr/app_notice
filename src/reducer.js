@@ -20,7 +20,8 @@ export default function reducer (state = {notices: [], fav: []}, action){
             })
             return {
                 ...state,
-                fav: newList
+                fav: newList,
+                notices: newList
             }
         default:
             return state;

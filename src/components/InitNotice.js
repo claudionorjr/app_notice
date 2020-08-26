@@ -1,7 +1,7 @@
 import React from 'react'
-import { Button, Text, View, Image, FlatList } from 'react-native'
+import { Text, View, Image, FlatList } from 'react-native'
 import { connect } from 'react-redux'
-import { colorSuccess, styles} from '../../public/Styles'
+import { styles} from '../../public/Styles'
 import NavBarNotice from './NavBarNotice'
 import BtnRemove from './BtnRemove'
 import BtnAdd from './BtnAdd'
@@ -50,12 +50,14 @@ class InitNotice extends React.Component {
     return (
         <View style={styles.card}>
           <>
-            <Image style={styles.imageArea} source={
-              obj.item['urlToImage'] === null ?
-              { uri: "https://reactjs.org/logo-og.png" }
-              :
-              { uri: obj.item['urlToImage'] }
-            }/>
+            <Image style={styles.imageArea}
+              source={
+                obj.item['urlToImage'] === null ?
+                { uri: "https://reactjs.org/logo-og.png" }
+                :
+                { uri: obj.item['urlToImage'] }
+              }
+            />
           </>
           <><Text style={styles.titleArea}>{obj.item['title']}</Text></>
           <><Text style={styles.contentArea}>{obj.item['content']}</Text></>
