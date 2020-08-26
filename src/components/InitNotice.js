@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, View, Image, FlatList } from 'react-native'
 import { connect } from 'react-redux'
-import { styles} from '../../public/Styles'
+import { styles, colorSuccess} from '../../public/Styles'
 import NavBarNotice from './NavBarNotice'
 import BtnRemove from './BtnRemove'
 import BtnAdd from './BtnAdd'
@@ -67,7 +67,7 @@ class InitNotice extends React.Component {
               (<BtnRemove obj={obj.item['title']} />)
               :
               this.isFav(obj.item) ?
-              (<BtnRemove obj={obj.item['title']} />)
+              (<Text style={{color: colorSuccess}}> Favorita </Text>)
               :
               (<BtnAdd obj={obj.item} />)
             }
