@@ -1,72 +1,94 @@
 import React from 'react'
 import { Button, Text, View, Image, FlatList } from 'react-native'
 import { connect } from 'react-redux'
-import { colorSuccess, styles, colorDanger} from '../../public/Styles'
+import { colorSuccess, styles} from '../../public/Styles'
 import NavBarNotice from './NavBarNotice'
+import BtnRemove from './BtnRemove'
+import BtnAdd from './BtnAdd'
 
 
 /**
  * @class InitNotice
  * 
  * @description: Classe componente responsável por toda a regra da view das noticias.
+ * 
+ * @author Claudionor Silva <claudionor.junior1994@gmail.com>
+ * @version 1.0.0
  */
 class InitNotice extends React.Component {
   
+  /**
+   * @description: 'componentDidMount()' faz 'dispatch()' com type do sagas.
+   * 
+   * @see /src/sagas.js
+   */
   async componentDidMount() {
-    this.props.dispatch({ type: 'USER_FETCH_REQUESTED'})
+    this.props.dispatch({ type: 'NOTICE_FETCH_REQUESTED', text: undefined})
+  }
+
+  /**
+   * @description: 'isFav()' verifica pelo titulo das noticias, se ela já consta como favorita.
+   * 
+   * @param {Notice.title} notice 
+   */
+  isFav = (notice) => {
+    if(this.props.fav.length > 0) {
+        for (let index = 0; index < this.props.fav.length; index++) {
+            let retorno = this.props.fav[index]['title'] === notice['title']
+            if (retorno) return retorno
+        }
+    }
+    return false
   }
 
   /**
    * @description: Método recebe um Objeto Notice e renderiza um card para cada noticia.
    * 
-   * @param {Notice} obj 
-   * @param {this.props} props 
+   * @param {Notice} obj
    */
   renderItem(obj) {
     return (
         <View style={styles.card}>
-          <View>
+          <>
             <Image style={styles.imageArea} source={
-              obj.item['urlToImage'] === null ? { uri: "https://reactjs.org/logo-og.png" } : { uri: obj.item['urlToImage'] }
+              obj.item['urlToImage'] === null ?
+              { uri: "https://reactjs.org/logo-og.png" }
+              :
+              { uri: obj.item['urlToImage'] }
             }/>
-          </View>
-          <View>
-            <Text style={styles.titleArea}>{obj.item['title']}</Text>
-          </View>
-          <View>
-            <Text style={styles.contentArea}>{obj.item['content']}</Text>
-          </View>
+          </>
+          <><Text style={styles.titleArea}>{obj.item['title']}</Text></>
+          <><Text style={styles.contentArea}>{obj.item['content']}</Text></>
           <View style={styles.btnArea}>
             {
-              obj.item['favorite'] 
-              ?
-              (<Button
-              onPress={() => this.props.dispatch({ type: 'remove/notice', favToRemove: obj.item['title']})}
-              title="Excluir"
-              color={colorDanger}
-              />)
+              obj.item['favorite'] ?
+              (<BtnRemove obj={obj.item['title']} />)
               :
-              (<Button
-                onPress={() => {
-                  let newNotice = [...this.props.fav]
-                  let notice = {'urlToImage': obj.item['urlToImage'], 'title': obj.item['title'], 'content': obj.item['content'], 'favorite': true}
-                  newNotice.push(notice)
-                  this.props.dispatch({ type: 'add/notice', fav: newNotice})
-                }}
-                title="Favoritar"
-                color={colorSuccess}
-              />)
+              this.isFav(obj.item) ?
+              (<BtnRemove obj={obj.item['title']} />)
+              :
+              (<BtnAdd obj={obj.item} />)
             }
           </View>
         </View>
         )
   }
 
+  /**
+   * @description: Renderiza um FlatList de 'this.props.notices'.
+   * 
+   * @see this.renderItem()
+   */
   render() {
     return (
       <>
         <NavBarNotice />
-        <FlatList style={styles.flatList} data={this.props.notices} keyExtractor={(item) => item['title']} renderItem={(item) => this.renderItem(item)}/>
+        <FlatList style={styles.flatList} data={this.props.notices} keyExtractor={(item) => {
+          return item['title']
+        }}
+        renderItem={(item) => {
+          return this.renderItem(item)
+        }}/>
       </>
     )
   }

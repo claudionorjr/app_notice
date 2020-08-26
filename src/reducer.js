@@ -1,8 +1,5 @@
 /**
  * @description: Reducer recebe dados do Action do Component e envia um novo estado.
- * 
- * @param {State} state 
- * @param {Action} action 
  */
 export default function reducer (state = {notices: [], fav: []}, action){
     
@@ -16,11 +13,6 @@ export default function reducer (state = {notices: [], fav: []}, action){
             return {
                 ...state,
                 fav: action.fav
-            }
-        case 'change/notice':
-            return {
-                ...state,
-                notices: action.notices
             }
         case 'remove/notice':
             let newList = state.fav.filter((e) => {

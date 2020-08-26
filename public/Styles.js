@@ -56,9 +56,8 @@ export const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     margin: 5,
   },
-  input: {
+  inputSearch: {
     backgroundColor: '#FFF',
-    minWidth: 200,
     height: 36,
     padding: 5,
     borderRadius: 7,
